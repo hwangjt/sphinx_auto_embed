@@ -4,17 +4,22 @@ from sphinx_auto_embed.directive import Directive
 
 
 class DirectiveEmbedOptions(Directive):
+    """
+    Directive for embedding a table from an OptionsDictionary instance.
+
+    The 3 arguments are the module name, class name, and attribute name.
+    """
 
     NAME = 'embed-options-table'
-    NUM_ARGS = 2
+    NUM_ARGS = 3
 
     def run(self, file_dir, file_name, embed_num_indent, args):
-        module_path, class_name = args
+        module_path, class_name, attribute_name = args
 
         exec('from {} import {}'.format(module_path, class_name), globals())
         exec('obj = {}()'.format(class_name), globals())
 
-        options = obj.options
+        options = getattr(obj, attribute_name)
 
         outputs = []
         for option_name, option_data in iteritems(options._declared_entries):

@@ -5,6 +5,11 @@ from sphinx_auto_embed.utils import get_rstx_file_paths, get_directives, read_em
 
 
 def main(args=None):
+    """
+    Find and process all rstx files and turn them into rst files with requested content embedded.
+
+    This is what is run when sphinx_auto_embed is called from the command line.
+    """
     if args is None:
         args = sys.argv[1:]
 

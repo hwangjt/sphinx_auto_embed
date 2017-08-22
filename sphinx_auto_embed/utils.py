@@ -6,6 +6,17 @@ import inspect
 
 
 def read_embedrc():
+    """
+    Find and read '.embedrc'.
+
+    From the current working directory (where the script was called), look for '.embedrc' in it
+    and all parent directories.
+
+    Returns
+    -------
+    str or None
+        Absolute path to the directory containing the custom directives; None if not found.
+    """
     # Keep going up a directory until we find '.embedrc' or go all the way to the top
     orig_cwd = os.getcwd()
     cwd = os.getcwd()

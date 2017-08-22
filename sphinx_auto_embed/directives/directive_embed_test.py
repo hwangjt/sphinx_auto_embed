@@ -15,6 +15,11 @@ from sphinx_auto_embed.directive import Directive
 
 
 class BaseDirectiveEmbedTest(Directive):
+    """
+    Directive for embedding a test code snippet and optionally the print output and plot.
+
+    The 3 arguments are the module name, class name, and method name.
+    """
 
     @contextlib.contextmanager
     def stdoutIO(self, stdout=None):

@@ -6,4 +6,4 @@ Usage
 
 .. embed-test-print-plot :: smt.tests.test_method_examples , Test , test_rbf
 
-.. embed-options-table :: smt.methods , RBF
+.. embed-options-table :: smt.methods , RBF , options
