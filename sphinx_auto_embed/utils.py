@@ -46,9 +46,14 @@ def read_embedrc():
     return custom_directives_dir
 
 
-def get_rstx_file_paths():
+def get_rstx_file_paths(cwd_abs_path):
     """
     Get a list of files in this directory and all sub-directories.
+
+    Parameters
+    ----------
+    cwd_abs_path : str
+        Absolute path for the current working directory.
 
     Returns
     -------
@@ -58,7 +63,7 @@ def get_rstx_file_paths():
     """
     rstx_file_paths_list = []
 
-    for file_dir, dirs, files in os.walk('.'):
+    for file_dir, dirs, files in os.walk(cwd_abs_path):
         for file_name in files:
             if file_name[-5:] == '.rstx':
                 rstx_file_paths_list.append((file_dir, file_name))
