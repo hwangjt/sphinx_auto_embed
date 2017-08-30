@@ -33,13 +33,6 @@ class BaseDirectiveEmbedTest(Directive):
     def get_method_lines(self, args):
         py_file_path, class_name, method_name = args
 
-        # index = len(py_file_path.split('/')[-1])
-        # py_root = py_file_path[:-index]
-        # py_file_name = py_file_path[-index:]
-        #
-        # sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/' + py_root)
-        # py_module = importlib.import_module(py_file_name[:-3])
-
         py_module = importlib.import_module(py_file_path)
 
         obj = getattr(py_module, class_name)

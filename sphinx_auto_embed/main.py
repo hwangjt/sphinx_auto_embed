@@ -15,7 +15,7 @@ def main(args=None):
 
     cwd_abs_path = os.getcwd()
 
-    custom_directives_dir = read_embedrc()
+    custom_directives_dir = read_embedrc(cwd_abs_path)
 
     rstx_file_paths_list = get_rstx_file_paths(cwd_abs_path)
     directives_list = get_directives(custom_directives_dir)

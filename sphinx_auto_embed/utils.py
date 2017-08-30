@@ -5,45 +5,45 @@ import pkgutil
 import inspect
 
 
-def read_embedrc():
+def read_embedrc(cwd_abs_path):
     """
     Find and read '.embedrc'.
 
     From the current working directory (where the script was called), look for '.embedrc' in it
     and all parent directories.
 
+    Parameters
+    ----------
+    cwd_abs_path : str
+        Absolute path for the current working directory.
+
     Returns
     -------
     str or None
         Absolute path to the directory containing the custom directives; None if not found.
     """
-    # Keep going up a directory until we find '.embedrc' or go all the way to the top
-    orig_cwd = os.getcwd()
-    cwd = os.getcwd()
-    while not os.path.isfile(cwd + '/.embedrc'):
-        os.chdir("..")
-        new_cwd = os.getcwd()
-        if new_cwd == cwd:
-            break
-        else:
-            cwd = new_cwd
-    embedrc_dir = cwd
+    parent_dirs = cwd_abs_path.split('/')
 
     custom_directives_dir = None
+    for i in range(len(parent_dirs)):
+        candidate_dir = '/'.join(parent_dirs[:len(parent_dirs)-i])
+        candidate_name = candidate_dir + '/.embedrc'
 
-    # If there is an '.embedrc':
-    if os.path.isfile(embedrc_dir + '/.embedrc'):
-        # Load the file
-        with open(embedrc_dir + '/.embedrc', 'r') as f:
-            lines = f.readlines()
+        # If a '.embedrc' has been found:
+        if os.path.isfile(candidate_name):
 
-        # Read in custom_directives_dir
-        for iline, line in enumerate(lines):
-            stripped_line = line.replace(' ', '')
-            if stripped_line[:22] == 'custom_directives_dir=':
-                custom_directives_dir = embedrc_dir + '/' + stripped_line[22:]
+            # Load the file
+            with open(candidate_name, 'r') as f:
+                lines = f.readlines()
 
-    return custom_directives_dir
+            # Read in custom_directives_dir
+            for iline, line in enumerate(lines):
+                stripped_line = line.replace(' ', '')
+                if stripped_line[:22] == 'custom_directives_dir=':
+                    custom_directives_dir = candidate_dir + '/' + stripped_line[22:]
+            break
+
+    return custom_directives_dir.replace('\n', '')
 
 
 def get_rstx_file_paths(cwd_abs_path):
