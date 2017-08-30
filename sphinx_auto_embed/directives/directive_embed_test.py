@@ -80,7 +80,7 @@ class BaseDirectiveEmbedTest(Directive):
             ])
         return lines
 
-    def get_plot_block(self, embed_num_indent, method_lines, file_dir, file_name):
+    def get_plot_block(self, embed_num_indent, method_lines, file_dir, file_name, size):
         joined_method_lines = '\n'.join(method_lines)
         plt.clf()
         with self.stdoutIO() as s:
@@ -93,7 +93,7 @@ class BaseDirectiveEmbedTest(Directive):
 
         lines = []
         lines.append(' ' * embed_num_indent + '.. figure:: {}\n'.format(rel_plot_name))
-        lines.append(' ' * embed_num_indent + '  :scale: 80 %\n')
+        lines.append(' ' * embed_num_indent + '  :scale: {} %\n'.format(size))
         lines.append(' ' * embed_num_indent + '  :align: center\n')
         return lines
 
@@ -112,11 +112,11 @@ class DirectiveEmbedTest(BaseDirectiveEmbedTest):
 class DirectiveEmbedPlot(BaseDirectiveEmbedTest):
 
     NAME = 'embed-plot'
-    NUM_ARGS = 3
+    NUM_ARGS = 4
 
     def run(self, file_dir, file_name, embed_num_indent, args):
-        method_lines = self.get_method_lines(args)
-        lines = self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name)
+        method_lines = self.get_method_lines(args[:3])
+        lines = self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[3])
         return lines
 
 
@@ -136,39 +136,39 @@ class DirectiveEmbedTestPrint(BaseDirectiveEmbedTest):
 class DirectiveEmbedTestPlot(BaseDirectiveEmbedTest):
 
     NAME = 'embed-test-plot'
-    NUM_ARGS = 3
+    NUM_ARGS = 4
 
     def run(self, file_dir, file_name, embed_num_indent, args):
-        method_lines = self.get_method_lines(args)
+        method_lines = self.get_method_lines(args[:3])
         lines = []
         lines.extend(self.get_code_block(embed_num_indent, method_lines))
-        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name))
+        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[3]))
         return lines
 
 
 class DirectiveEmbedTestPrintPlot(BaseDirectiveEmbedTest):
 
     NAME = 'embed-test-print-plot'
-    NUM_ARGS = 3
+    NUM_ARGS = 4
 
     def run(self, file_dir, file_name, embed_num_indent, args):
-        method_lines = self.get_method_lines(args)
+        method_lines = self.get_method_lines(args[:3])
         lines = []
         lines.extend(self.get_code_block(embed_num_indent, method_lines))
         lines.extend(self.get_print_block(embed_num_indent, method_lines))
-        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name))
+        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[3]))
         return lines
 
 
 class DirectiveEmbedTestPlotPrint(BaseDirectiveEmbedTest):
 
     NAME = 'embed-test-plot-print'
-    NUM_ARGS = 3
+    NUM_ARGS = 4
 
     def run(self, file_dir, file_name, embed_num_indent, args):
-        method_lines = self.get_method_lines(args)
+        method_lines = self.get_method_lines(args[:3])
         lines = []
         lines.extend(self.get_code_block(embed_num_indent, method_lines))
-        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name))
+        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[3]))
         lines.extend(self.get_print_block(embed_num_indent, method_lines))
         return lines
