@@ -109,6 +109,17 @@ class DirectiveEmbedTest(BaseDirectiveEmbedTest):
         return lines
 
 
+class DirectiveEmbedPlot(BaseDirectiveEmbedTest):
+
+    NAME = 'embed-plot'
+    NUM_ARGS = 3
+
+    def run(self, file_dir, file_name, embed_num_indent, args):
+        method_lines = self.get_method_lines(args)
+        lines = self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name)
+        return lines
+
+
 class DirectiveEmbedTestPrint(BaseDirectiveEmbedTest):
 
     NAME = 'embed-test-print'
