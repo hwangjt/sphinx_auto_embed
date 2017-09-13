@@ -80,17 +80,18 @@ class BaseDirectiveEmbedTest(Directive):
             ])
         return lines
 
-    def get_plot_block(self, embed_num_indent, method_lines, file_dir, file_name, size):
+    def get_plot_block(self, embed_num_indent, method_lines, file_dir, file_name,
+            class_name, method_name, size):
         joined_method_lines = '\n'.join(method_lines)
         plt.close()
         plt.figure(figsize=(8, 6))
         with self.stdoutIO() as s:
             exec(joined_method_lines)
 
-        abs_plot_name = file_dir + '/' + file_name[:-5] + '.png'
-        plt.savefig(abs_plot_name)
+        rel_plot_name = '{}_{}_{}.png'.format(file_name[:-5], class_name, method_name)
 
-        rel_plot_name = file_name[:-5] + '.png'
+        abs_plot_name = file_dir + '/' + rel_plot_name
+        plt.savefig(abs_plot_name)
 
         lines = []
         lines.append(' ' * embed_num_indent + '.. figure:: {}\n'.format(rel_plot_name))
@@ -117,7 +118,7 @@ class DirectiveEmbedPlot(BaseDirectiveEmbedTest):
 
     def run(self, file_dir, file_name, embed_num_indent, args):
         method_lines = self.get_method_lines(args[:3])
-        lines = self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[3])
+        lines = self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[1], args[2], args[3])
         return lines
 
 
@@ -143,7 +144,7 @@ class DirectiveEmbedTestPlot(BaseDirectiveEmbedTest):
         method_lines = self.get_method_lines(args[:3])
         lines = []
         lines.extend(self.get_code_block(embed_num_indent, method_lines))
-        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[3]))
+        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[1], args[2], args[3]))
         return lines
 
 
@@ -157,7 +158,7 @@ class DirectiveEmbedTestPrintPlot(BaseDirectiveEmbedTest):
         lines = []
         lines.extend(self.get_code_block(embed_num_indent, method_lines))
         lines.extend(self.get_print_block(embed_num_indent, method_lines))
-        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[3]))
+        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[1], args[2], args[3]))
         return lines
 
 
@@ -170,6 +171,6 @@ class DirectiveEmbedTestPlotPrint(BaseDirectiveEmbedTest):
         method_lines = self.get_method_lines(args[:3])
         lines = []
         lines.extend(self.get_code_block(embed_num_indent, method_lines))
-        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[3]))
+        lines.extend(self.get_plot_block(embed_num_indent, method_lines, file_dir, file_name, args[1], args[2], args[3]))
         lines.extend(self.get_print_block(embed_num_indent, method_lines))
         return lines
