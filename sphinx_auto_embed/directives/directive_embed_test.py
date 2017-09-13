@@ -82,6 +82,7 @@ class BaseDirectiveEmbedTest(Directive):
 
     def get_plot_block(self, embed_num_indent, method_lines, file_dir, file_name, size):
         joined_method_lines = '\n'.join(method_lines)
+        plt.close()
         plt.figure(figsize=(8, 6))
         with self.stdoutIO() as s:
             exec(joined_method_lines)
