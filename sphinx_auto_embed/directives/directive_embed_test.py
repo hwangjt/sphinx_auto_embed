@@ -107,7 +107,7 @@ class DirectiveEmbedTest(BaseDirectiveEmbedTest):
 
     def run(self, file_dir, file_name, embed_num_indent, args):
         method_lines = self.get_method_lines(args)
-        lines = self.get_code_block(self, embed_num_indent, method_lines)
+        lines = self.get_code_block(embed_num_indent, method_lines)
         return lines
 
 
