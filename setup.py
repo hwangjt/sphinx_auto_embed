@@ -15,5 +15,7 @@ setup(
     entry_points="""
         [console_scripts]
         sphinx_auto_embed=sphinx_auto_embed.main:main
-    """
-    )
+    """,
+    url = 'https://github.com/hwangjt/sphinx_auto_embed',
+    download_url = 'https://github.com/hwangjt/sphinx_auto_embed/archive/v0.1.1-alpha.tar.gz',
+)
